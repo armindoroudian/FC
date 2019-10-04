@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Alphanumeric permutations for a 7 or 10 digit phone number";
+}
+
+<div id="Div_ShowBack" class="NavigateInPages">+Show Back Filters</div>
+<div id="Filters">
+    <dl class="dl-horizontal">
+        <dt>Phone Number
+        </dt>
+
+        <dd>
+            <input type="text" id="PhoneNumber" />
+        </dd>
+        <br />
+        <dt>Records/Page
+        </dt>
+
+        <dd>
+            <input type="text" class="ShortTextbox" id="PageSize" value="10" />
+        </dd>
+        <br />
+        <dt>Page Index
+        </dt>
+        <dd>
+            <input type="text" class="ShortTextbox" id="PageIndex" value="1" />
+        </dd>
+        <br />
+
+        
+        <dt></dt>
+        <dd>
+            <input type="button" id="Button_Calculate" value="Show Results" />
+        </dd>
+    </dl>
+</div>
+<div id="Div_Result">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Server Informarion</dt>
+        <dd>
+            <strong>Phone Number:</strong> <span id="Span_Number"></span>
+            <br />
+            <strong>Valid:</strong> <span id="Span_IsValid"></span>
+            <br />
+            <strong>Execution time:</strong> <span id="Span_ExecutionTime"></span>
+            <br />
+            <strong>Possible Permutations:</strong> <span id="Span_PossiblePermutations"></span>
+            <br />
+            <strong>Returning Permutations:</strong> <span id="Span_ActualPermutations"></span>
+            <br />
+        </dd>
+        <hr />
+    </dl>
+    <div id="Div_ResultOK">
+        <dl class="dl-horizontal">
+
+            <dt>Navigate in pages
+            </dt>
+            <dd>
+                <span title="First" class="NavigateInPages" onclick="GoToFirstPage()"><<</span>
+                |
+            <span title="Previous" class="NavigateInPages" onclick="GoToPreviousPage()"><</span>
+                |
+            <span title="Next" class="NavigateInPages" onclick="GoToNextPage()">></span>
+                |
+            <span title="Last" class="NavigateInPages" onclick="GoToLastPage()">>></span>
+            </dd>
+        </dl>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Index#</dt>
+            <dd><b>Permutation</b></dd>
+        </dl>
+        <dl class="dl-horizontal" id="DL_Result"></dl>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>Navigate in pages
+            </dt>
+            <dd>
+                <span title="First" class="NavigateInPages" onclick="GoToFirstPage()"><<</span>
+                |
+            <span title="Previous" class="NavigateInPages" onclick="GoToPreviousPage()"><</span>
+                |
+            <span title="Next" class="NavigateInPages" onclick="GoToNextPage()">></span>
+                |
+            <span title="Last" class="NavigateInPages" onclick="GoToLastPage()">>></span>
+            </dd>
+        </dl>
+    </div>
+    <div id="Div_ResultError">
+        <span id="Span_Error" class="Error"></span>
+    </div>
+
+</div>
