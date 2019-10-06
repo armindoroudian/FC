@@ -13,6 +13,8 @@ namespace FINRAChallenge.Controllers
     public class APIController : Controller
     {
         // GET: API
+        private string Source = "";
+
         public ActionResult Index()
         {
             return View();
@@ -27,16 +29,25 @@ namespace FINRAChallenge.Controllers
         public string CalculatePermutations(PermutationRequest request)
         {
             var beginTime = DateTime.Now;
-            //request.Number = "2404376186";
             var result = new Result();
             result.Request = request;
             try
             {
                 if (result.IsValid)
                 {
+                    //Calculate number of possible permutations
                     result.CalculateTotalPossibilities();
+
+                    //Generate the list of permutations
                     result.Permutations = GeneratePermutations(request.Number);
+
+                    //Set the source (Cache vs Generated)
+                    result.Source = Source;
+
+                    //Assign actual returned permutations count
                     result.ActualPermutations = result.Permutations.Count;
+
+                    //Paginate
                     result.Paginate(request.PageSize, request.PageIndex);
                 }
                 else
@@ -62,51 +73,25 @@ namespace FINRAChallenge.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "PhoneNumber")]
         public List<string> GeneratePermutations(string PhoneNumber)
         {
-
-
-
             List<string> Permutations = new List<string>();
-            if (HttpContext.Cache[PhoneNumber] != null)
-                Permutations = (List<string>)HttpContext.Cache[PhoneNumber];
-            else
+            if (HttpContext.Cache[PhoneNumber] != null)//Number is already calculated and cached
             {
-                var ints = new List<int>();
+                Permutations = (List<string>)HttpContext.Cache[PhoneNumber];
+                Source = "From Server Cache";
+            }
+            else//Phone number is entered for first time and needs to be generated and cached
+            {
+                //Generate Permutations
+                Permutations = Result.GenerateRawPermutations(PhoneNumber);
 
-                var permutations = AlphaNumericList.List;
-
-                var chars = PhoneNumber.ToCharArray();
-                var tmpList = new List<string>();
-                for (int i = chars.Count() - 1; i >= 0; i--)
-                {
-                    int index = int.Parse(chars[i].ToString());
-                    //result.Permutations.Add(chars[i].ToString());
-                    foreach (var p in permutations[index])
-                    {
-                        if (i == chars.Count() - 1)
-                        {
-                            Permutations.Add(p);
-                        }
-                        else
-                        {
-
-                            foreach (var permutation in Permutations)
-                            {
-                                tmpList.Add(p + permutation);
-                            }
-                        }
-
-                    }
-                    Permutations.AddRange(tmpList);
-                    tmpList.Clear();
-                    Permutations = Permutations.Where(p => p.Length == PhoneNumber.Length - i).ToList();
-                }
-
+                //Cache this phone number permutations
                 HttpContext.Cache[PhoneNumber] = Permutations;
-
+                Source = "Calculated";
             }
 
             return Permutations;
-
         }
+
+        
     }
 }

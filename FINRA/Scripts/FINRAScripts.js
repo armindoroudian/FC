@@ -65,7 +65,7 @@ function PopulateResult() {
             $("#Span_IsValid").html(requestResult.IsValid);
             $("#Span_ExecutionTime").html(requestResult.Duration);
             $("#Span_PossiblePermutations").html(requestResult.PossiblePermutations.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-            $("#Span_ActualPermutations").html(requestResult.ActualPermutations.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $("#Span_ActualPermutations").html(requestResult.ActualPermutations.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " | " + "<b><font color='red'>[" + requestResult.Source +"]</font></b>");
             if (requestResult.IsValid) {
                 $("#Div_ResultOK").show('slow');
                 $("#Div_ResultError").hide('slow');
